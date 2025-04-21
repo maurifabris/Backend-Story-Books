@@ -1,0 +1,4 @@
+A SOLUCIONAR:
+->> HISTORIAS SE CREAN DOS VECES 
+
+SOLUCIONAR problema de historais privadas se ven desde otros usuarios  <<-- el problema esta en que se crea una nueva historia en lugar de editar la que esta en el db To DO
