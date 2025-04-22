@@ -1,35 +1,45 @@
-<h1 class="center-align">Stories</h1>
+<h4 class="center-align teal-text text-darken-3">📖 Public Stories</h4>
 
 <div class="row card-wrapper">
   {{#each stories}}
-  <div class="col s12 m4">
-    <div class="card card-equal-height">
-      <div class="card-image">
-        {{{editIcon user ../user _id}}}
-      </div>
-      
-      <div class="card-content">
-        <h5>{{title}}</h5>
-        <p class="truncate-text">{{stripTags (truncate body 150)}}</p>
-        
-        <div class="chip">
-          <img src="https://images.weserv.nl/?url={{encodeURIComponent (replace user.image 'http://' 'https://')}}&w=150&h=150&fit=cover&mask=circle"
-               alt="{{user.displayName}}"
-               onerror="this.onerror=null;this.src='/images/default-avatar.jpg';"
-               class="responsive-img circle"
-               loading="lazy">
-          <a href="/stories/user/{{user._id}}">{{user.displayName}}</a>
+    <div class="col s12 m6 l4">
+      <div class="card hoverable z-depth-2 card-equal-height">
+
+        <div class="card-image">
+          {{{editIcon user ../user _id}}}
+        </div>
+
+        <div class="card-content">
+          <h5 class="truncate">{{title}}</h5>
+          <p class="grey-text text-darken-2 truncate-text" style="min-height: 60px;">
+            {{stripTags (truncate body 150)}}
+          </p>
+
+          <div class="chip" style="margin-top: 10px;">
+            <img
+              src="https://images.weserv.nl/?url={{encodeURIComponent (replace user.image 'http://' 'https://')}}&w=150&h=150&fit=cover&mask=circle"
+              alt="{{user.displayName}}"
+              onerror="this.onerror=null;this.src='/images/default-avatar.jpg';"
+              class="responsive-img circle"
+              loading="lazy">
+            <a href="/stories/user/{{user._id}}" class="black-text">
+              {{user.displayName}}
+            </a>
+          </div>
+        </div>
+
+        <div class="card-action center-align">
+          <a href="/stories/{{_id}}" class="btn-small teal lighten-1 waves-effect waves-light">
+            Read More
+          </a>
         </div>
       </div>
-      
-      <div class="card-action center-align">
-        <a href="/stories/{{_id}}" class="btn grey">Read More</a>
+    </div>
+  {{else}}
+    <div class="col s12">
+      <div class="card-panel yellow lighten-4">
+        <p class="grey-text text-darken-2 center-align">No stories to display</p>
       </div>
     </div>
-  </div>
-  {{else}}
-  <div class="col s12">
-    <p>No stories to display</p>
-  </div>
   {{/each}}
 </div>

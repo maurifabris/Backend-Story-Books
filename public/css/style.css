@@ -1,53 +1,68 @@
-.login-containes {
-    width: 400;
-    margin-top: 50px;
-    text-align: center;
+/* Variables para consistencia */
+:root {
+  --primary-color: #26a69a; /* Color principal de Materialize */
+  --card-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  --card-shadow-hover: 0 10px 20px rgba(0,0,0,0.15);
+  --card-border-radius: 8px;
+  --transition-speed: 0.3s ease;
 }
 
-.chip img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 8px;
-    vertical-align: middle;
-  }
+/* Contenedor de login (corregido el nombre de clase) */
+.login-container {
+  width: 400px;
+  margin: 50px auto;
+  text-align: center;
+}
 
-  .fa-small{
-    font-size: 16px !important;
-  }
-
-  /* Estructura principal de las tarjetas */
+/* Estructura principal de las tarjetas */
 .card-wrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* Espacio entre tarjetas */
+  gap: 20px;
   justify-content: center;
   padding: 0 15px;
+  align-items: stretch;
 }
 
-/* Clase para igualar alturas */
-.card-equal-height {
+/* Cada columna */
+.card-wrapper > .col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* Previene problemas de desbordamiento */
+}
+
+/* Tarjeta base */
+.card {
+  transition: all var(--transition-speed);
+  border-radius: var(--card-border-radius);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin-bottom: 20px;
+  background: white;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-shadow-hover);
 }
 
 /* Contenido de la tarjeta */
 .card-content {
   flex-grow: 1;
-  padding: 20px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
 }
 
 /* Título de la tarjeta */
-.card-content h5 {
-  margin-top: 0;
-  margin-bottom: 15px;
+.card-title {
+  margin: 0 0 16px 0;
   font-size: 1.4rem;
   font-weight: 500;
+  color: #333;
+  line-height: 1.3;
 }
 
 /* Texto del cuerpo */
@@ -56,59 +71,90 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Limita a 3 líneas */
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
   line-height: 1.5;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* Imágenes en las tarjetas */
+.card-image {
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform var(--transition-speed);
+}
+
+.card:hover .card-image img {
+  transform: scale(1.03);
 }
 
 /* Chip de usuario */
 .chip {
   margin-top: auto;
-  align-self: center;
+  align-self: flex-start;
   background-color: #f5f5f5;
   padding: 8px 12px;
   border-radius: 25px;
   display: inline-flex;
   align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background-color var(--transition-speed);
+}
+
+.chip:hover {
+  background-color: #e0e0e0;
 }
 
 .chip img {
   width: 32px;
   height: 32px;
   border-radius: 50%;
+  object-fit: cover;
   margin-right: 8px;
+  vertical-align: middle;
 }
 
 /* Acciones de la tarjeta */
 .card-action {
-  padding: 15px 20px !important;
+  padding: 16px 24px !important;
   border-top: 1px solid rgba(160, 160, 160, 0.2);
   text-align: center;
+  background: #f9f9f9;
 }
 
 /* Botón */
 .card-action .btn {
   width: 100%;
   max-width: 200px;
+  transition: all var(--transition-speed);
 }
 
-/* Responsividad */
-@media only screen and (min-width: 601px) {
-  .card-wrapper .col.m4 {
-    width: calc(33.333% - 20px);
-    flex: 0 0 calc(33.333% - 20px);
-  }
+/* Iconos pequeños */
+.fa-small {
+  font-size: 16px !important;
 }
 
-@media only screen and (max-width: 600px) {
-  .card-wrapper .col.s12 {
-    width: 100%;
-    flex: 0 0 100%;
-  }
+/* Botón flotante */
+.btn-float {
+  float: left;
+  margin-right: 10px;
 }
 
-/* Estilo para cuando no hay stories */
+/* Imágenes pequeñas */
+.img-small {
+  width: 180px;
+  height: auto;
+}
+
+/* Mensaje cuando no hay contenido */
 .card-wrapper + p {
   text-align: center;
   width: 100%;
@@ -117,10 +163,106 @@
   color: #666;
 }
 
-.btn-float{
-    float: left;
-    margin-right: 10px;
+/* Responsividad */
+@media only screen and (min-width: 992px) {
+  .card-wrapper .col.m4 {
+    width: calc(33.333% - 20px);
+    flex: 0 0 calc(33.333% - 20px);
+  }
 }
-.img-small{
-  width: 180px;
+
+@media only screen and (min-width: 601px) and (max-width: 991px) {
+  .card-wrapper .col.m6 {
+    width: calc(50% - 20px);
+    flex: 0 0 calc(50% - 20px);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .card-wrapper .col.s12 {
+    width: 100%;
+    flex: 0 0 100%;
+  }
+  
+  .login-container {
+    width: 90%;
+    margin: 30px auto;
+  }
+}
+
+/* Efectos de hover mejorados */
+.card {
+  position: relative;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(38, 166, 154, 0);
+  transition: background var(--transition-speed);
+  z-index: 0;
+}
+
+.card:hover::after {
+  background: rgba(38, 166, 154, 0.03);
+}
+.card-wrapper > .col {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 calc(33.333% - 20px);
+}
+
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.chip a {
+  max-width: 120px; /* ajustá a gusto */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: middle;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+}
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(38, 166, 154, 0);
+  transition: background var(--transition-speed);
+  z-index: 0;
+  pointer-events: none; 
+}
+.edit-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  padding: 8px;
+  color: #26a69a;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  z-index: 2;
+  text-align: center;
+}
+
+.edit-icon:hover {
+  background-color: #26a69a;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.card {
+  position: relative; 
 }

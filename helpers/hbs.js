@@ -39,5 +39,8 @@ module.exports = {
     return html
       .replace(new RegExp(` value="${escapedSelected}"`), '$& selected="selected"')
       .replace(new RegExp(`>${escapedSelected}</option>`), ' selected="selected">$&');
-  }
+  },
+  eq: function (a, b) {
+    return a === b;
+  },
 };

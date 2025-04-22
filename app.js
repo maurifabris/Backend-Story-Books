@@ -44,7 +44,7 @@ if (process.env.NODE_ENV === 'DEVELOPMENT') {
     app.use(morgan('dev'))
 }
 // Handlebars Helpers
-const { formatDate, stripTags, truncate, encodeURIComponent, replace, editIcon, select } = require('./helpers/hbs.js')
+const { formatDate, stripTags, truncate, encodeURIComponent, replace, editIcon, select, eq } = require('./helpers/hbs.js')
 
 // Handlebars
 app.engine('.hbs', engine({ helpers: {
@@ -54,7 +54,8 @@ app.engine('.hbs', engine({ helpers: {
   replace,
   encodeURIComponent,
   editIcon,
-  select
+  select,
+  eq
 }, defaultLayout: 'main', extname:'.hbs'}))
 app.set('view engine', '.hbs')
 

@@ -1,39 +1,62 @@
-<h6>DASHBOARD</h6>
-<h3>
-    Welcome {{name}}
-</h3>
-<p> Here are your stories</p>
-{{#if stories}}
-    <table class="striped">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-           {{#each stories}}
+<div class="container">
+    <div class="section">
+        <div class="card-panel teal lighten-5 z-depth-1">
+            <h5 class="teal-text text-darken-4">📚 Dashboard</h5>
+            <h4 class="header">Welcome, {{name}}</h4>
+            <p class="grey-text text-darken-1">Here are your stories:</p>
+        </div>
+
+        {{#if stories}}
+        <table class="highlight responsive-table">
+            <thead class="teal lighten-4">
                 <tr>
-                    <td><a href="/stories/{{_id}}"></a>{{title}}</td>
-                    <td>{{formatDate createdAT 'MMMM Do YYYY, h:mm:ss a'}}</td>
-                    <td><span class="dash-status">{{status}}</span></td>
-                    <td>
-                        <a href="/stories/edit/{{_id}}" class="btn ben-float">
-                        <i class="fas fa-edit"></i>
-                        </a>
-                        <form action="/stories/{{_id}}" method="POST" id="delete-form">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="btn red">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        </form>
-                    </td>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th class="center-align">Actions</th>
                 </tr>
-            {{/each}}
-        </tbody>
-    </table>
-{{else}}
-<p> You have not created any stories</p>
-{{/if}}
+            </thead>
+            <tbody>
+                {{#each stories}}
+                <tr>
+                    <td>
+                        <a href="/stories/{{_id}}" class="teal-text text-darken-2">
+                            {{title}}
+                        </a>
+                    </td>
+                    <td>{{formatDate createdAT 'MMMM Do YYYY, h:mm a'}}</td>
+                    <td>
+                        <span class="new badge {{#if (eq status 'public')}}green{{else}}grey{{/if}}"
+                            data-badge-caption="">
+                            {{status}}
+                        </span>
+                    </td>
+                    <td class="center-align">
+                        {{#if (eq user._id ../user._id)}}
+                        <a href="/stories/edit/{{_id}}" class="btn-small blue lighten-1 waves-effect waves-light"
+                            title="Edit your story">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form action="/stories/{{_id}}" method="POST" style="display:inline;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn-small red lighten-1 waves-effect waves-light"
+                                title="Delete your story">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                        {{else}}
+                        <span class="grey-text">—</span>
+                        {{/if}}
+                    </td>
+
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{else}}
+        <div class="card-panel grey lighten-4">
+            <p class="grey-text text-darken-1">You have not created any stories yet.</p>
+        </div>
+        {{/if}}
+    </div>
+</div>
