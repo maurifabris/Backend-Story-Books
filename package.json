@@ -11,6 +11,7 @@
     "dev": "cross-env NODE_ENV=development nodemon app"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^5.1.0",
     "dotenv": "^16.4.7",
