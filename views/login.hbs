@@ -1,3 +1,12 @@
+<div id="google-auth-warning" class="modal">
+    <div class="modal-content">
+        <h4>¡Atención!</h4>
+        <p>"Esta es una versión para portafolio. Por lo que Google no permite usar OAuth. Puede probar con la cuenta
+            Email: prueba@gmail.com Contraseña: 123
+            O creando un nuevo usuario
+            Para probar OAuth, clone el proyecto de <a href="https://github.com/maurifabris/Backend-Story-Books.git" target="_blank" rel="noopener noreferrer">GitHub</a> y ejecútalo localmente."</p>
+    </div>
+</div>
 <div class="container center-align" style="margin-top: 100px;">
   <h3>
     <i class="fas fa-book-reader"></i> StoryBooks
@@ -27,3 +36,12 @@
     </div>
   </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalElem = document.querySelector('#google-auth-warning');
+        const instance = M.Modal.init(modalElem, {
+            dismissible: true // se cierra al hacer clic afuera
+        });
+        instance.open();
+    });
+</script>
