@@ -1,20 +1,18 @@
 const path = require('path')
 const express = require('express')
-const dotenv = require('dotenv' )
+const dotenv = require('dotenv')
 const connectDB = require("./config/db")
 const morgan = require("morgan")
 const { engine } = require('express-handlebars')
 const methodOverride = require('method-override')
 const passport = require('passport')
 const session = require('express-session')
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo')
 const mongoose = require('mongoose')
-const flash = require('connect-flash');
-
-
+const flash = require('connect-flash')
 
 // load config
-dotenv.config({path : './config/config.env'})
+dotenv.config({ path: './config/config.env' })
 
 // Passport config
 require('./config/passport.js')(passport)
@@ -24,10 +22,11 @@ connectDB()
 const app = express()
 
 // Body parser
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
-app.use(flash());
 
+// Configuración de flash messages (movido antes de passport)
+app.use(flash())
 
 // Method override
 app.use(methodOverride(function (req, res) {
@@ -41,51 +40,60 @@ app.use(methodOverride(function (req, res) {
 
 // Logging
 if (process.env.NODE_ENV === 'DEVELOPMENT') {
-    app.use(morgan('dev'))
+  app.use(morgan('dev'))
 }
+
 // Handlebars Helpers
 const { formatDate, stripTags, truncate, encodeURIComponent, replace, editIcon, select, eq } = require('./helpers/hbs.js')
 
 // Handlebars
-app.engine('.hbs', engine({ helpers: {
-  formatDate,
-  truncate,
-  stripTags,
-  replace,
-  encodeURIComponent,
-  editIcon,
-  select,
-  eq
-}, defaultLayout: 'main', extname:'.hbs'}))
+app.engine('.hbs', engine({
+  helpers: {
+    formatDate,
+    truncate,
+    stripTags,
+    replace,
+    encodeURIComponent,
+    editIcon,
+    select,
+    eq
+  },
+  defaultLayout: 'main',
+  extname: '.hbs'
+}))
 app.set('view engine', '.hbs')
 
-// Sessions
+// Sessions (configuración mejorada)
 app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URL,
-    })
-  }));
+  secret: process.env.SESSION_SECRET || 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URL,
+    ttl: 14 * 24 * 60 * 60 // = 14 days. Default
+  }),
+  cookie: {
+    maxAge: 14 * 24 * 60 * 60 * 1000 // 14 días
+  }
+}))
 
 // Passport middleware
 app.use(passport.initialize())
 app.use(passport.session())
 
-// Set global var
-app.use(function (req,res, next){
+// Set global vars (actualizado para incluir flash messages)
+app.use(function (req, res, next) {
   res.locals.user = req.user || null
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.error_msg = req.flash('error_msg')
+  res.locals.error = req.flash('error') // Para errores de passport
   next()
 })
-
 
 // Static folder
 app.use(express.static(path.join(__dirname, 'public')))
 
-
 // Routes
-
 app.use('/', require('./routes/index.js'))
 app.use('/auth', require('./routes/auth.js'))
 app.use('/stories', require('./routes/stories.js'))
