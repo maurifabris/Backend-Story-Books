@@ -1,45 +1,67 @@
 <h4 class="center-align teal-text text-darken-3">📖 Public Stories</h4>
 
-<div class="row card-wrapper">
+<div class="row">
   {{#each stories}}
-    <div class="col s12 m6 l4">
-      <div class="card hoverable z-depth-2 card-equal-height">
+  <div class="col s12 m6 l4">
+    <div class="card hoverable z-depth-2" style="height: 100%; display: flex; flex-direction: column;">
 
-        <div class="card-image">
-          {{{editIcon user ../user _id}}}
-        </div>
+      <div class="card-image">
+        {{{editIcon user ../user _id}}}
+      </div>
 
-        <div class="card-content">
-          <h5 class="truncate">{{title}}</h5>
-          <p class="grey-text text-darken-2 truncate-text" style="min-height: 60px;">
-            {{stripTags (truncate body 150)}}
-          </p>
+      <div class="card-content" style="flex: 1;">
+        <h5 class="truncate">{{title}}</h5>
+        <p class="grey-text text-darken-2" style="min-height: 60px;">
+          {{stripTags (truncate body 50)}}
+        </p>
 
-          <div class="chip" style="margin-top: 10px;">
-            <img
-              src="https://images.weserv.nl/?url={{encodeURIComponent (replace user.image 'http://' 'https://')}}&w=150&h=150&fit=cover&mask=circle"
-              alt="{{user.displayName}}"
-              onerror="this.onerror=null;this.src='/images/default-avatar.jpg';"
-              class="responsive-img circle"
-              loading="lazy">
-            <a href="/stories/user/{{user._id}}" class="black-text">
-              {{user.displayName}}
-            </a>
-          </div>
-        </div>
-
-        <div class="card-action center-align">
-          <a href="/stories/{{_id}}" class="btn-small teal lighten-1 waves-effect waves-light">
-            Read More
+        <div class="chip" style="margin-top: 10px; display: flex; align-items: center;">
+          {{!-- Imagenes de avatares --}}
+          {{#if user.image}}
+          <img src="{{user.image}}" alt="{{user.displayName}}"
+            onerror="this.onerror=null;this.parentNode.innerHTML='<i class=\'material-icons circle grey lighten-2\'>person</i><a href=\'/stories/user/{{../user._id}}\' class=\'black-text truncate\' style=\'max-width:120px\'>{{../user.displayName}}</a>'"
+            class="circle responsive-img" style="width: 32px; height: 32px; object-fit: cover; margin-right: 8px;">
+          {{else}}
+          {{!-- Icono si el usuario no tiene avatar --}}
+          <i class="fas fa-user-circle fa-2x" style="font-size: 32px; color: #757575; margin-right: 8px;"></i>
+          {{/if}}
+          <a href="/stories/user/{{user._id}}" class="black-text truncate" style="max-width: 120px;">
+            {{user.displayName}}
           </a>
         </div>
       </div>
-    </div>
-  {{else}}
-    <div class="col s12">
-      <div class="card-panel yellow lighten-4">
-        <p class="grey-text text-darken-2 center-align">No stories to display</p>
+
+      <div class="card-action center-align">
+        <a href="/stories/{{_id}}" class="btn-small teal lighten-1 waves-effect waves-light">
+          Read More
+        </a>
       </div>
     </div>
+  </div>
+  {{else}}
+  <div class="col s12">
+    <div class="card-panel yellow lighten-4">
+      <p class="grey-text text-darken-2 center-align">No stories to display</p>
+    </div>
+  </div>
   {{/each}}
 </div>
+
+{{!-- Por ser tan poco css no vale la pena ponerlo en /public/css --}}
+<style> 
+  
+  .chip img {
+    display: block !important;
+  }
+
+  
+  .card .card-image {
+    overflow: hidden;
+  }
+
+ 
+  [src*="/images/"] {
+    background-color: #f5f5f5;
+    border-radius: 50%;
+  }
+</style>

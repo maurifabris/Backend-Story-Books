@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 
 module.exports = function (passport) {
-    // Estrategia de Google (existente)
+    // Estrategia de Google
     passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -43,11 +43,11 @@ module.exports = function (passport) {
         }
     }));
 
-    // Nueva estrategia local
+    // Estrategia local
     passport.use(
         'local',
         new LocalStrategy(
-            { usernameField: 'email' }, // Usar email como nombre de usuario
+            { usernameField: 'email' }, 
             async (email, password, done) => {
                 try {
                     // Buscar usuario por email, incluyendo el campo password
@@ -57,7 +57,7 @@ module.exports = function (passport) {
                         return done(null, false, { message: 'El email no está registrado' });
                     }
                     
-                    // Verificar si el usuario tiene contraseña (no es solo de Google)
+                    // Verificar si el usuario tiene contraseña 
                     if (!user.password) {
                         return done(null, false, { message: 'Este email está registrado con Google. Por favor inicia sesión con Google.' });
                     }
@@ -78,7 +78,7 @@ module.exports = function (passport) {
         )
     );
 
-    // Serialización y deserialización (sin cambios)
+    // Serialización y deserialización 
     passport.serializeUser((user, done) => {
         done(null, user.id);
     });

@@ -1,6 +1,7 @@
 const moment = require('moment');
 
 module.exports = {
+  // Fechas
   formatDate: function(date, format) {
     return moment(date).format(format || 'MMMM Do YYYY, h:mm:ss a');
   },

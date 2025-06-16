@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
   googleId: {
     type: String,
     unique: true,
-    sparse: true // Permite que sea null para usuarios locales
+    sparse: true 
   },
   email: {
     type: String,
@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    select: false // No se incluye en las consultas por defecto
+    select: false 
   },
   displayName: {
     type: String,
